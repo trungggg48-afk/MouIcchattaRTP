@@ -1,54 +1,110 @@
+package me.trungggg48.rtp.gui;
+
+import me.trungggg48.rtp.MoulcchattaRTP;
+import me.trungggg48.rtp.manager.RTPManager;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class RTPMenu {
 
-    private final MoulcchttaaRTP plugin;
+    private final MoulcchattaRTP plugin;
+    private final RTPManager rtpManager;
 
-    public RTPMenu(MoulcchttaaRTP plugin) {
+    public RTPMenu(MoulcchattaRTP plugin, RTPManager rtpManager) {
         this.plugin = plugin;
+        this.rtpManager = rtpManager;
     }
 
-    public void openMenu(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 27, "§8Chọn thế giới RTP");
+    public void open(Player player) {
+        String title = color(plugin.getConfig().getString("menu.title", "&8Chọn thế giới RTP"));
+        int size = plugin.getConfig().getInt("menu.size", 27);
 
-        ItemStack filler = createItem(Material.GRAY_STAINED_GLASS_PANE, " ");
-        for (int i = 0; i < 27; i++) {
-            inv.setItem(i, filler);
+        Inventory inv = Bukkit.createInventory(null, size, title);
+
+        // fill glass / filler
+        if (plugin.getConfig().getBoolean("menu.filler.enabled", true)) {
+            ItemStack filler = createItem(
+                    Material.valueOf(plugin.getConfig().getString("menu.filler.material", "BLACK_STAINED_GLASS_PANE")),
+                    color(plugin.getConfig().getString("menu.filler.name", " ")),
+                    plugin.getConfig().getStringList("menu.filler.lore")
+            );
+
+            for (int i = 0; i < size; i++) {
+                inv.setItem(i, filler);
+            }
         }
 
-        inv.setItem(10, createItem(Material.GRASS_BLOCK, "§aTài nguyên",
-                "§7Nhấn để RTP tới world thường",
-                "§7Đếm ngược: §e5 giây",
-                "§7Di chuyển sẽ hủy"));
+        ConfigurationSection worlds = plugin.getConfig().getConfigurationSection("menu.worlds");
+        if (worlds != null) {
+            for (String key : worlds.getKeys(false)) {
+                ConfigurationSection sec = worlds.getConfigurationSection(key);
+                if (sec == null) continue;
 
-        inv.setItem(13, createItem(Material.NETHERRACK, "§cNether",
-                "§7Nhấn để RTP tới Nether",
-                "§7Đếm ngược: §e5 giây",
-                "§7Di chuyển sẽ hủy"));
+                String worldName = sec.getString("world");
+                int slot = sec.getInt("slot");
+                Material material = Material.valueOf(sec.getString("material", "GRASS_BLOCK"));
+                String name = color(sec.getString("name", "&a" + key));
+                List<String> lore = color(sec.getStringList("lore"));
 
-        inv.setItem(16, createItem(Material.END_STONE, "§dThe End",
-                "§7Nhấn để RTP tới End",
-                "§7Đếm ngược: §e5 giây",
-                "§7Di chuyển sẽ hủy"));
-
-        inv.setItem(11, createItem(Material.COMPASS, "§eThông tin RTP",
-                "§7- Teleport ngẫu nhiên an toàn",
-                "§7- Đếm ngược 5 giây",
-                "§7- Di chuyển sẽ hủy"));
-
-        inv.setItem(15, createItem(Material.BARRIER, "§cĐóng menu"));
+                ItemStack item = createItem(material, name, lore);
+                inv.setItem(slot, item);
+            }
+        }
 
         player.openInventory(inv);
     }
 
-    private ItemStack createItem(Material material, String name, String... loreLines) {
+    public void handleClick(Player player, int slot) {
+        ConfigurationSection worlds = plugin.getConfig().getConfigurationSection("menu.worlds");
+        if (worlds == null) return;
+
+        for (String key : worlds.getKeys(false)) {
+            ConfigurationSection sec = worlds.getConfigurationSection(key);
+            if (sec == null) continue;
+
+            int configSlot = sec.getInt("slot");
+            if (configSlot != slot) continue;
+
+            String worldName = sec.getString("world");
+            if (worldName == null || worldName.isEmpty()) {
+                player.sendMessage(color("&cWorld chưa được cấu hình."));
+                return;
+            }
+
+            player.closeInventory();
+            rtpManager.startRTP(player, worldName);
+            return;
+        }
+    }
+
+    private ItemStack createItem(Material material, String name, List<String> lore) {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
             meta.setDisplayName(name);
-            if (loreLines != null && loreLines.length > 0) {
-                meta.setLore(Arrays.asList(loreLines));
-            }
+            meta.setLore(lore);
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             item.setItemMeta(meta);
         }
         return item;
+    }
+
+    private String color(String s) {
+        return s == null ? "" : s.replace("&", "§");
+    }
+
+    private List<String> color(List<String> list) {
+        List<String> out = new ArrayList<>();
+        for (String s : list) out.add(color(s));
+        return out;
     }
 }
