@@ -1,80 +1,163 @@
-messages:
-  player-only: "&cLenh nay chi dung cho nguoi choi."
-  no-permission: "&cBan khong co quyen."
-  reloaded: "&aDa reload config RTP."
-  already-teleporting: "&cBan dang trong qua trinh RTP."
-  teleport-start: "&eDang RTP sau &6%seconds%s &e. Dung di chuyen!"
-  teleport-cancelled: "&cRTP da bi huy vi ban di chuyen."
-  teleporting: "&aDang tim vi tri an toan..."
-  teleported: "&aDa RTP den &e%world% &7(&f%x%&7, &f%y%&7, &f%z%&7)"
-  cooldown: "&cBan can cho &e%seconds%s &cde dung lai lenh nay."
-  world-not-found: "&cKhong tim thay world: %world%"
-  unsafe-location: "&cKhong tim duoc vi tri an toan. Thu lai sau."
-  menu-title: "&8Chon the gioi RTP"
+settings:
+  debug: false
+  folia-mode: true
 
 menu:
-  overworld:
-    slot: 11
-    material: GRASS_BLOCK
-    name: "&aRTP Overworld"
-    lore:
-      - "&7Teleport ngau nhien den world thuong."
-      - "&eClick de RTP"
-  nether:
-    slot: 13
-    material: NETHERRACK
-    name: "&cRTP Nether"
-    lore:
-      - "&7Teleport ngau nhien den Nether."
-      - "&eClick de RTP"
-  end:
-    slot: 15
-    material: END_STONE
-    name: "&5RTP End"
-    lore:
-      - "&7Teleport ngau nhien den The End."
-      - "&eClick de RTP"
+  title: "&8Chọn thế giới RTP"
+  size: 27
+  fill-empty-slots: true
+  filler-material: BLACK_STAINED_GLASS_PANE
+  filler-name: " "
 
-settings:
+teleport:
+  countdown-seconds: 5
   cancel-on-move: true
-  blocked-materials:
-    - LAVA
-    - WATER
-    - FIRE
-    - SOUL_FIRE
-    - CACTUS
-    - MAGMA_BLOCK
+  cancel-on-damage: true
+  safe-teleport: true
+  max-attempts: 100
+  stand-center: true
+  check-two-blocks-air: true
+  avoid-liquid: true
+  avoid-lava: true
+  avoid-cactus: true
+  avoid-magma: true
+  avoid-fire: true
+  avoid-void: true
+  avoid-leaves: false
+  avoid-water: true
 
-rtp:
-  overworld:
-    enabled: true
-    world: "world"
-    permission: "moulcchttaa.rtp.overworld"
-    min-radius: 500
-    max-radius: 3000
-    delay-seconds: 5
-    cooldown-seconds: 60
-    allow-water: false
-    allow-nether-roof: false
+cooldown:
+  enabled: true
+  seconds: 60
+  bypass-permission: "moulrtp.bypass.cooldown"
 
-  nether:
-    enabled: true
-    world: "world_nether"
-    permission: "moulcchttaa.rtp.nether"
-    min-radius: 300
-    max-radius: 1500
-    delay-seconds: 5
-    cooldown-seconds: 120
-    allow-water: false
-    allow-nether-roof: false
+combat:
+  enabled: false
+  tag-seconds: 15
+  block-rtp-while-tagged: true
 
-  end:
+bossbar:
+  enabled: false
+  title: "&eRTP sau &6%seconds% &egiây..."
+  color: YELLOW
+  style: SOLID
+
+titles:
+  enabled: false
+  title: "&6&lRTP"
+  subtitle: "&eDịch chuyển sau &6%seconds% &egiây"
+
+actionbar:
+  enabled: true
+  message: "&eDịch chuyển sau &6%seconds% &egiây"
+
+sounds:
+  countdown:
     enabled: true
-    world: "world_the_end"
-    permission: "moulcchttaa.rtp.end"
-    min-radius: 300
-    max-radius: 1500
-    delay-seconds: 5
-    cooldown-seconds: 120
-    allow-water: false
-    allow-nether-roof: false
+    sound: BLOCK_NOTE_BLOCK_HAT
+    volume: 1.0
+    pitch: 1.0
+  success:
+    enabled: true
+    sound: ENTITY_ENDERMAN_TELEPORT
+    volume: 1.0
+    pitch: 1.0
+  cancel:
+    enabled: true
+    sound: ENTITY_VILLAGER_NO
+    volume: 1.0
+    pitch: 1.0
+  menu-open:
+    enabled: true
+    sound: UI_BUTTON_CLICK
+    volume: 1.0
+    pitch: 1.0
+
+messages:
+  prefix: "&6&lRTP &8» "
+  no-permission: "&cBạn không có quyền dùng lệnh này."
+  only-player: "&cChỉ người chơi mới dùng được lệnh này."
+  player-not-found: "&cKhông tìm thấy người chơi."
+  reloading: "&eĐang reload plugin..."
+  reload-success: "&aĐã reload config thành công."
+  world-not-found: "&cWorld &f%world% &ckhông tồn tại."
+  world-disabled: "&cWorld này đang tắt RTP."
+  no-safe-location: "&cKhông tìm được vị trí an toàn. Hãy thử lại."
+  already-teleporting: "&cBạn đang trong quá trình RTP."
+  cooldown: "&cBạn cần chờ &f%seconds%s &cđể dùng RTP tiếp."
+  countdown: "&eDịch chuyển sau &6%seconds% &egiây..."
+  teleporting: "&aĐang tìm vị trí an toàn..."
+  success: "&aĐã RTP đến &f%world% &a(&f%x%&7, &f%y%&7, &f%z%&a)."
+  cancelled-move: "&cBạn đã di chuyển, RTP bị hủy."
+  cancelled-damage: "&cBạn vừa nhận sát thương, RTP bị hủy."
+  cancelled-combat: "&cBạn đang trong combat nên không thể RTP."
+  invalid-world: "&cWorld không hợp lệ."
+
+worlds:
+  world:
+    enabled: true
+    display-name: "&aOverworld"
+    material: GRASS_BLOCK
+    slot: 11
+    permission: "moulrtp.world.overworld"
+    min-x: -5000
+    max-x: 5000
+    min-z: -5000
+    max-z: 5000
+    min-y: 60
+    max-y: 320
+    blacklist-biomes: []
+    blacklist-blocks:
+      - LAVA
+      - WATER
+      - CACTUS
+      - MAGMA_BLOCK
+      - FIRE
+      - CAMPFIRE
+      - SOUL_CAMPFIRE
+
+  world_nether:
+    enabled: true
+    display-name: "&cNether"
+    material: NETHERRACK
+    slot: 13
+    permission: "moulrtp.world.nether"
+    min-x: -3000
+    max-x: 3000
+    min-z: -3000
+    max-z: 3000
+    min-y: 32
+    max-y: 120
+    blacklist-biomes: []
+    blacklist-blocks:
+      - LAVA
+      - FIRE
+      - MAGMA_BLOCK
+      - SOUL_FIRE
+
+  world_the_end:
+    enabled: true
+    display-name: "&5The End"
+    material: END_STONE
+    slot: 15
+    permission: "moulrtp.world.end"
+    min-x: -3000
+    max-x: 3000
+    min-z: -3000
+    max-z: 3000
+    min-y: 40
+    max-y: 120
+    blacklist-biomes: []
+    blacklist-blocks:
+      - AIR
+
+commands:
+  rtp:
+    aliases: []
+  reload:
+    enabled: true
+    permission: "moulrtp.admin.reload"
+
+permissions:
+  use: "moulrtp.use"
+  admin: "moulrtp.admin"
