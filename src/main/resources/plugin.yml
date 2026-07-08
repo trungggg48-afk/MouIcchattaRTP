@@ -1,0 +1,23 @@
+name: MoulcchttaaRTP
+version: 1.0.0
+main: me.trungggg48.rtp.MoulcchttaaRTP
+api-version: '1.21'
+author: trungggg48
+folia-supported: true
+
+commands:
+  rtp:
+    description: Open RTP menu
+    usage: /rtp
+
+permissions:
+  moulcchttaa.rtp.use:
+    default: true
+  moulcchttaa.rtp.reload:
+    default: op
+  moulcchttaa.rtp.overworld:
+    default: true
+  moulcchttaa.rtp.nether:
+    default: true
+  moulcchttaa.rtp.end:
+    default: true
