@@ -1,0 +1,80 @@
+messages:
+  player-only: "&cLenh nay chi dung cho nguoi choi."
+  no-permission: "&cBan khong co quyen."
+  reloaded: "&aDa reload config RTP."
+  already-teleporting: "&cBan dang trong qua trinh RTP."
+  teleport-start: "&eDang RTP sau &6%seconds%s &e. Dung di chuyen!"
+  teleport-cancelled: "&cRTP da bi huy vi ban di chuyen."
+  teleporting: "&aDang tim vi tri an toan..."
+  teleported: "&aDa RTP den &e%world% &7(&f%x%&7, &f%y%&7, &f%z%&7)"
+  cooldown: "&cBan can cho &e%seconds%s &cde dung lai lenh nay."
+  world-not-found: "&cKhong tim thay world: %world%"
+  unsafe-location: "&cKhong tim duoc vi tri an toan. Thu lai sau."
+  menu-title: "&8Chon the gioi RTP"
+
+menu:
+  overworld:
+    slot: 11
+    material: GRASS_BLOCK
+    name: "&aRTP Overworld"
+    lore:
+      - "&7Teleport ngau nhien den world thuong."
+      - "&eClick de RTP"
+  nether:
+    slot: 13
+    material: NETHERRACK
+    name: "&cRTP Nether"
+    lore:
+      - "&7Teleport ngau nhien den Nether."
+      - "&eClick de RTP"
+  end:
+    slot: 15
+    material: END_STONE
+    name: "&5RTP End"
+    lore:
+      - "&7Teleport ngau nhien den The End."
+      - "&eClick de RTP"
+
+settings:
+  cancel-on-move: true
+  blocked-materials:
+    - LAVA
+    - WATER
+    - FIRE
+    - SOUL_FIRE
+    - CACTUS
+    - MAGMA_BLOCK
+
+rtp:
+  overworld:
+    enabled: true
+    world: "world"
+    permission: "moulcchttaa.rtp.overworld"
+    min-radius: 500
+    max-radius: 3000
+    delay-seconds: 5
+    cooldown-seconds: 60
+    allow-water: false
+    allow-nether-roof: false
+
+  nether:
+    enabled: true
+    world: "world_nether"
+    permission: "moulcchttaa.rtp.nether"
+    min-radius: 300
+    max-radius: 1500
+    delay-seconds: 5
+    cooldown-seconds: 120
+    allow-water: false
+    allow-nether-roof: false
+
+  end:
+    enabled: true
+    world: "world_the_end"
+    permission: "moulcchttaa.rtp.end"
+    min-radius: 300
+    max-radius: 1500
+    delay-seconds: 5
+    cooldown-seconds: 120
+    allow-water: false
+    allow-nether-roof: false
