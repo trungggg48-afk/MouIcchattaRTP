@@ -1,8 +1,8 @@
 name: MoulcchttaaRTP
 version: 1.0.0
-main: me.MouIcchatta.rtp.MoulcchttaaRTP
+main: me.trungggg48.rtp.MoulcchttaaRTP
 api-version: '1.21'
-author: MouIcchatta
+author: trungggg48
 folia-supported: true
 
 commands:
